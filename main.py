@@ -15,11 +15,16 @@ llave_simbolos=simbolos.keys()
 palabras_reservadas = {'wor':'ciclo for','whole':'ciclo while', 'wof':'if', 'wolse':'else', 'woclass': 'clase', 'wo':'funcion'}
 llave_palabras_reservadas = palabras_reservadas.keys()
 
-identificadores = re.compile(r'\w+')
+#identificadores = re.compile(r'\w+')#
+identificadores = {'A-Za-z+': 'identificador'}
+llave_identificadores = identificadores.keys()
 
 nuemero_entero = re.compile(r'\d+')
+#numero_entero = {}
 
-numero_real = re.compile(r'\d+\.\d+')
+#numero_real = re.compile(r'\d+\.\d+')
+numero_real = {'[0-9].[0-9]': 'numero real'}
+llave_numero_real = numero_real.keys()
 
 tipo_dato = {'wong32': 'long', 'woat32': 'float', 'wotring': 'string', 'woar':'char'}
 llave_tipo_dato = tipo_dato.keys()
@@ -54,20 +59,30 @@ for line in program:
             print(token, " Es un simbolo para ", simbolos[token])
         elif token in llave_palabras_reservadas:
             print(token, " Es una palabra reservada para ", palabras_reservadas[token])
-        elif identificadores.fullmatch(token):
+        elif token in llave_identificadores:
             anterior = tokens[i-1] if i-1 >= 0 else None
             if anterior in palabras_reservadas:
                 print(token, " Es un identificador de ", palabras_reservadas[anterior])
             else:
                 print(token, " Es un identificador de variable")
-        elif numero_real.fullmatch(token):
+        elif token in llave_numero_real:
             print(token, " Es un nuemero real")
         elif nuemero_entero.fullmatch(token):
             print(token, " Es un nuemero entero")
         elif token in llave_tipo_dato:
             print(token, " Es una palabra reservada para ", tipo_dato[token])
         else:
+            reconocerIdentificador(token)
             print("No existe")
            
     dataFlag=False
     print("_ _ _ _ _ _ _ _ _ _ _ _ _ _ _  _")
+
+    def reconocerIdentificador(token):
+        for i in token:
+            if i.isalpha():
+                print("es una letra")
+            elif i.isdigit():
+                print("es un digito")
+    
+    
